@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HCA_Application</string>
+    <string name="empty_questions">No questions found</string>
+    <string name="quota_exceeded">You have exceeded your quota.</string>
 </resources>

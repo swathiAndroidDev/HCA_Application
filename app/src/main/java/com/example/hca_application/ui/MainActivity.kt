@@ -40,7 +40,22 @@ class MainActivity : AppCompatActivity() {
         questionViewModel.getQuestions()
         questionViewModel.questionsLiveData?.observe(this, Observer { questionResponse ->
             binding.progressbar.visibility = View.GONE
-            questionRecyclerAdapter.updateItems(questionResponse.questionResponseItems)
+            if (questionResponse.quotaRemaining > 0) {
+                if (questionResponse.questionResponseItems.isNotEmpty()) {
+                    questionRecyclerAdapter.updateItems(questionResponse.questionResponseItems)
+                    showHideViews(false, "")
+                } else {
+                    showHideViews(true, getString(R.string.empty_questions))
+                }
+            }else{
+                showHideViews(true, getString(R.string.quota_exceeded))
+            }
         })
+    }
+
+    private fun showHideViews(isListEmpty : Boolean, message : String){
+        binding.tvEmpty.visibility = if(isListEmpty)View.VISIBLE else View.GONE
+        binding.rvQuestions.visibility = if(isListEmpty)View.GONE else View.VISIBLE
+        binding.tvEmpty.text = message
     }
 }
